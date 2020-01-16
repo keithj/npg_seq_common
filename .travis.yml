@@ -7,6 +7,10 @@ language: perl
 perl:
   - "5.26-shrplib"
 
+env:
+  global:
+    - WTSI_NPG_GITHUB_URL=https://github.com/wtsi-npg
+
 before_install:
   - ./scripts/travis_before_install.sh
 
