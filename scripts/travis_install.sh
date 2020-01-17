@@ -51,3 +51,5 @@ do
   ./Build
   ./Build install
 done
+
+cpanm --notest --installdeps . || find /home/travis/.cpanm/work -cmin -1 -name '*.log' -exec tail -n 20 {} \;
