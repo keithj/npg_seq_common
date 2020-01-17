@@ -6,9 +6,14 @@ set -e -x
 # TRAVIS_BRANCH unless set in the Travis build environment.
 WTSI_NPG_BUILD_BRANCH=${WTSI_NPG_BUILD_BRANCH:=$TRAVIS_BRANCH}
 
-sudo apt-get install libgd2-xpm-dev # for npg_tracking
+# APT
+sudo apt-get install libgd2-xpm-dev # For npg_tracking
+
+# CPAN
+cpanm --quiet --notest Alien::Tidyp # For npg_tracking
 cpanm --quiet --notest LWP::Protocol::https
 
+# Conda
 wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-4.6.14-Linux-x86_64.sh -O ~/miniconda.sh
 
 /bin/bash ~/miniconda.sh -b -p ~/miniconda
