@@ -38,18 +38,22 @@ conda install -y hisat2
 # WTSI NPG Perl repo dependencies
 repos="perl-dnap-utilities npg_tracking"
 
+pushd /tmp
+
 for repo in $repos
 do
-  cd /tmp
   # Always clone master when using depth 1 to get current tag
   git clone --branch master --depth 1 "${WTSI_NPG_GITHUB_URL}/${repo}.git" "${repo}.git"
-  cd /tmp/${repo}.git
+  pushd /tmp/${repo}.git
   # Shift off master to appropriate branch (if possible)
   git ls-remote --heads --exit-code origin ${WTSI_NPG_BUILD_BRANCH} && git pull origin ${WTSI_NPG_BUILD_BRANCH} && echo "Switched to branch ${WTSI_NPG_BUILD_BRANCH}"
   cpanm --quiet --notest --installdeps . || find /home/travis/.cpanm/work -cmin -1 -name '*.log' -exec tail -n 20 {} \;
   perl Build.PL
   ./Build
   ./Build install
+  popd
 done
+
+popd
 
 cpanm --notest --installdeps . || find /home/travis/.cpanm/work -cmin -1 -name '*.log' -exec tail -n 20 {} \;
